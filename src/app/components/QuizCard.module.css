@@ -1,0 +1,116 @@
+.quizCard {
+  background-color: #fff8f0;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-playfair-display);
+  color: #6b3a3a;
+}
+
+.quizImage {
+  border-radius: 6px;
+  object-fit: cover;
+  width: 340px;
+  height: 220px;
+}
+
+.questionText {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.optionButton {
+  background-color: #e8d5c0;
+  color: #6b3a3a;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-playfair-display);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.optionButton:hover:not(:disabled) {
+  background-color: #d4c0a8;
+  transform: scale(1.03);
+}
+
+.optionButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.optionCorrect {
+  background-color: #a8d5a2 !important;
+  border-color: #6aaa64 !important;
+  opacity: 1 !important;
+}
+
+.optionWrong {
+  background-color: #f0a0a0 !important;
+  border-color: #d46868 !important;
+}
+
+.hintText {
+  font-size: 0.85rem;
+  color: #c97b84;
+  font-style: italic;
+  animation: fadeIn 0.3s ease-in;
+  margin: 0;
+}
+
+.correctText {
+  font-size: 1rem;
+  color: #6aaa64;
+  font-weight: 700;
+  animation: fadeIn 0.3s ease-in;
+  margin: 0;
+}
+
+.progressDots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #e8d5c0;
+  transition: background-color 0.3s;
+}
+
+.dotCompleted {
+  background-color: #d4687a;
+}
+
+.dotCurrent {
+  background-color: #c97b84;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

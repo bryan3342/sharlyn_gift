@@ -1,0 +1,30 @@
+.container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  bottom: -80px;
+  animation: floatUp var(--duration) var(--delay) infinite ease-in;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--heart-opacity);
+  }
+  90% {
+    opacity: var(--heart-opacity);
+  }
+  100% {
+    transform: translateY(-110vh) translateX(var(--drift-x)) rotate(var(--rotation));
+    opacity: 0;
+  }
+}
