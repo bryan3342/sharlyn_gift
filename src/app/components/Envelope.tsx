@@ -18,6 +18,13 @@ type EnvelopePhase =
   | "finalOpening"
   | "finalReveal";
 
+const TRANSITION_MESSAGES = [
+  "You\u2019re the light of my life and I want you to know ...",
+  "You are the wind beneath my wings...",
+  "You are such a special person that deserves all the love in the world...",
+  "All I want to know is ...",
+];
+
 function getRandomPosition() {
   return {
     x: 15 + Math.random() * 70,
@@ -29,6 +36,7 @@ export default function Envelope() {
   const [phase, setPhase] = useState<EnvelopePhase>("idle");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [transitionIndex, setTransitionIndex] = useState(0);
   const isAnimating = useRef(false);
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
   const [bgMusicStarted, setBgMusicStarted] = useState(false);
@@ -95,25 +103,31 @@ export default function Envelope() {
     isAnimating.current = true;
 
     if (currentQuestion >= TOTAL_QUESTIONS - 1) {
-      // Last question: hide quiz, show transition message, then final reveal
+      // Last question: hide quiz, cycle through transition messages, then final reveal
       setPhase("closing");
 
-      setTimeout(() => {
-        setPhase("transitionMessage");
-      }, 500);
-
-      setTimeout(() => {
-        setPhase("transitionMessageOut");
-      }, 3500);
+      let t = 500;
+      for (let i = 0; i < TRANSITION_MESSAGES.length; i++) {
+        const showAt = t;
+        const hideAt = t + 3000;
+        setTimeout(() => {
+          setTransitionIndex(i);
+          setPhase("transitionMessage");
+        }, showAt);
+        setTimeout(() => {
+          setPhase("transitionMessageOut");
+        }, hideAt);
+        t = hideAt + 800; // wait for fade-out before next message
+      }
 
       setTimeout(() => {
         setPhase("finalOpening");
-      }, 4300);
+      }, t);
 
       setTimeout(() => {
         setPhase("finalReveal");
         isAnimating.current = false;
-      }, 5700);
+      }, t + 1400);
       return;
     }
 
@@ -185,15 +199,15 @@ export default function Envelope() {
         </div>
       )}
 
-      {/* Transition message */}
+      {/* Transition messages */}
       {phase === "transitionMessage" && (
-        <div className={styles.transitionMessage}>
-          You&apos;re the light of my life and I want you to know ...
+        <div key={transitionIndex} className={styles.transitionMessage}>
+          {TRANSITION_MESSAGES[transitionIndex]}
         </div>
       )}
       {phase === "transitionMessageOut" && (
-        <div className={styles.transitionMessageOut}>
-          You&apos;re the light of my life and I want you to know ...
+        <div key={transitionIndex} className={styles.transitionMessageOut}>
+          {TRANSITION_MESSAGES[transitionIndex]}
         </div>
       )}
 
