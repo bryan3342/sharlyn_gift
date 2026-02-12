@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import Image from "next/image";
 import styles from "./Envelope.module.css";
 import LoveLetter from "./LoveLetter";
 import QuizCard from "./QuizCard";
@@ -16,7 +17,8 @@ type EnvelopePhase =
   | "transitionMessage"
   | "transitionMessageOut"
   | "finalOpening"
-  | "finalReveal";
+  | "finalReveal"
+  | "gameOver";
 
 const TRANSITION_MESSAGES = [
   "You\u2019re the light of my life and I want you to know ...",
@@ -37,6 +39,7 @@ export default function Envelope() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [transitionIndex, setTransitionIndex] = useState(0);
+  const [totalWrongAnswers, setTotalWrongAnswers] = useState(0);
   const isAnimating = useRef(false);
   const bgMusicRef = useRef<HTMLAudioElement | null>(null);
   const [bgMusicStarted, setBgMusicStarted] = useState(false);
@@ -74,6 +77,17 @@ export default function Envelope() {
       bgMusicRef.current = null;
     }
   }, []);
+
+  const handleWrongAnswer = useCallback(() => {
+    setTotalWrongAnswers((prev) => {
+      const next = prev + 1;
+      if (next >= 7) {
+        stopBgMusic();
+        setPhase("gameOver");
+      }
+      return next;
+    });
+  }, [stopBgMusic]);
 
   const handleClick = useCallback(() => {
     if (phase !== "idle" || isAnimating.current) return;
@@ -175,6 +189,20 @@ export default function Envelope() {
 
   return (
     <>
+      {/* Game over screen */}
+      {phase === "gameOver" && (
+        <div className={styles.gameOverOverlay}>
+          <Image
+            src="/quiz/oh_no.png"
+            alt="Oh no"
+            fill
+            style={{ objectFit: "cover", objectPosition: "center 20%" }}
+            priority
+          />
+          <p className={styles.gameOverText}>YOU DO NOT LOVE ME</p>
+        </div>
+      )}
+
       {/* Quiz card as fixed-center overlay */}
       {showQuizOverlay && (
         <div className={styles.quizOverlay}>
@@ -183,6 +211,7 @@ export default function Envelope() {
             questionNumber={currentQuestion + 1}
             totalQuestions={TOTAL_QUESTIONS}
             onCorrectAnswer={handleCorrectAnswer}
+            onWrongAnswer={handleWrongAnswer}
             disabled={phase !== "showQuestion"}
           />
         </div>
@@ -194,6 +223,7 @@ export default function Envelope() {
             questionNumber={currentQuestion + 1}
             totalQuestions={TOTAL_QUESTIONS}
             onCorrectAnswer={handleCorrectAnswer}
+            onWrongAnswer={handleWrongAnswer}
             disabled={true}
           />
         </div>

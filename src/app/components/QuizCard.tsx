@@ -10,6 +10,7 @@ interface QuizCardProps {
   questionNumber: number;
   totalQuestions: number;
   onCorrectAnswer: () => void;
+  onWrongAnswer: () => void;
   disabled: boolean;
 }
 
@@ -18,6 +19,7 @@ export default function QuizCard({
   questionNumber,
   totalQuestions,
   onCorrectAnswer,
+  onWrongAnswer,
   disabled,
 }: QuizCardProps) {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -46,6 +48,7 @@ export default function QuizCard({
     } else {
       setDisabledOptions((prev) => [...prev, index]);
       setShowHint(true);
+      onWrongAnswer();
       setTimeout(() => {
         setSelectedOption(null);
       }, 600);

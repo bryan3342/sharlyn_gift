@@ -255,3 +255,36 @@
     box-shadow: 0 2px 20px rgba(212, 104, 122, 0.4);
   }
 }
+
+/* Game over screen */
+.gameOverOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: gameOverFadeIn 0.8s ease-out forwards;
+}
+
+.gameOverText {
+  position: relative;
+  z-index: 101;
+  font-family: var(--font-playfair-display);
+  font-size: 4rem;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin: 0;
+  padding: 0 20px;
+}
+
+@keyframes gameOverFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
