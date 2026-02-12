@@ -120,7 +120,7 @@ export default function LoveLetter({ onYes }: LoveLetterProps) {
               <source src="/quiz/yippee.mp4" type="video/mp4" />
             </video>
             <p className="text-2xl" style={{ fontFamily: "var(--font-dancing-script)" }}>
-              I knew you would! Happy Valentine&apos;s Day! ❤️
+              I knew you would be! Happy Valentine&apos;s Day! ❤️
             </p>
           </>
         ) : (
@@ -140,7 +140,7 @@ export default function LoveLetter({ onYes }: LoveLetterProps) {
                   className="text-2xl font-bold"
                   style={{ fontFamily: "var(--font-playfair-display)" }}
                 >
-                  Sharlyn, will you be my Valentine?
+                  Sharlyn, are you excited for February 14th?
                 </p>
                 <div style={{ display: "flex", gap: "16px" }}>
                   <button
